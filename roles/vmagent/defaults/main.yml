@@ -1,0 +1,7 @@
+---
+vm_folder: /data
+tenant: 0
+docker_image_agent: victoriametrics/vmagent:v1.97.0
+vminsert_host: 158.160.116.141
+vmselect_host: 158.160.118.55
+vmstorage_host: 62.84.127.102

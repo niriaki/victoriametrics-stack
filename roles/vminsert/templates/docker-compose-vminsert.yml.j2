@@ -1,0 +1,9 @@
+version: '3.5'
+services:
+  vminsert:
+    container_name: vminsert
+    image: {{docker_image_insert}}
+    network_mode: "host"  
+    command:
+      - '--storageNode={{vmstorage_host}}:8400'
+    restart: always

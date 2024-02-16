@@ -1,0 +1,5 @@
+---
+
+vm_folder: /data
+docker_image_storage: victoriametrics/vmstorage:v1.97.0-cluster
+retention_period: 7d

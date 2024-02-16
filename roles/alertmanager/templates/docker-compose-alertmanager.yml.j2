@@ -1,0 +1,12 @@
+version: '3.5'
+services:
+  alertmanager:
+    container_name: alertmanager
+    image: {{docker_image_alertmanager}}
+    volumes:
+      - {{vm_folder}}/alertmanager/alertmanager.yml:/config/alertmanager.yml
+    command:
+      - '--config.file=/config/alertmanager.yml'
+    ports:
+      - 9093:9093
+    restart: always

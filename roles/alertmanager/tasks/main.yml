@@ -1,0 +1,33 @@
+---
+# tasks file for alertmanager
+- name: Stop service
+  command: docker-compose down
+  become: true
+  args:
+    chdir: "{{vm_folder}}/alertmanager"
+  ignore_errors: true
+
+- name: Create configs directory
+  file:
+    path: "{{vm_folder}}/alertmanager/"
+    state: directory
+
+- name: Copy alerts.yml for alertmanager
+  copy:
+    src: "files/alertmanager.yml"
+    dest: "{{vm_folder}}/alertmanager/alertmanager.yml"
+    backup: yes
+    force: yes
+
+- name: Copy compose file for VM alert
+  template:
+    src: docker-compose-alertmanager.yml.j2
+    dest: "{{vm_folder}}/alertmanager/docker-compose.yml"
+    backup: yes
+    force: yes
+
+- name: Run service
+  command: docker-compose up -d
+  become: true
+  args:
+    chdir: "{{vm_folder}}/alertmanager"

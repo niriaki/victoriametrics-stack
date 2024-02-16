@@ -1,0 +1,50 @@
+---
+# tasks file for vmagent
+- name: Stop service
+  command: docker-compose down
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vmagent"
+  ignore_errors: true
+
+- name: Create configs directory
+  file:
+    path: "{{vm_folder}}/vmagent/"
+    state: directory
+
+- name: Create directory for VM agent data
+  file:
+    path: "{{vm_folder}}/vmagent/vmagent_data"
+    state: directory
+
+- name: Create directory for scrape configs
+  file:
+    path: "{{vm_folder}}/vmagent/prometheus/file_sd"
+    state: directory
+
+- name: Copy compose file for VM agent
+  template:
+    src: docker-compose-vmagent.yml.j2
+    dest: "{{vm_folder}}/vmagent/docker-compose.yml"
+    backup: yes
+    force: yes
+
+- name: Copy prometheus.yml for vmagent
+  template:
+    src: prometheus.yml.j2
+    dest: "{{vm_folder}}/vmagent/prometheus.yml"
+    backup: yes
+    force: yes
+
+- name: Copy node.yml for vmagent
+  copy:
+    src: "files/node.yml"
+    dest: "{{vm_folder}}/vmagent/prometheus/file_sd/node.yml"
+    backup: yes
+    force: yes
+
+- name: Run service
+  command: docker-compose up -d
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vmagent"

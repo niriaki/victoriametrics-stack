@@ -1,0 +1,37 @@
+---
+# tasks file for vmalert
+- name: Stop service
+  command: docker-compose down
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vmalert"
+  ignore_errors: true
+
+- name: Create configs directory
+  file:
+    path: "{{vm_folder}}/vmalert/"
+    state: directory
+
+- name: Copy alerts.yml for vmalert
+  copy:
+    src: "files/{{item}}"
+    dest: "{{vm_folder}}/vmalert/"
+    backup: yes
+    force: yes
+  loop:
+    - alerts-cluster.yml
+    - alerts-health.yml
+    - alerts-vmagent.yml
+
+- name: Copy compose file for VM vmalert
+  template:
+    src: docker-compose-vmalert.yml.j2
+    dest: "{{vm_folder}}/vmalert/docker-compose.yml"
+    backup: yes
+    force: yes
+
+- name: Run service
+  command: docker-compose up -d
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vmalert"

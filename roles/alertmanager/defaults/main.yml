@@ -1,0 +1,4 @@
+---
+
+vm_folder: /data
+docker_image_alertmanager: prom/alertmanager:v0.25.0

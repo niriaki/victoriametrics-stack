@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  external_labels:
+    monitor: vmagent
+scrape_configs:
+  - job_name: vmagent
+    metrics_path: /metrics
+    static_configs:
+    - targets:
+      - localhost:8429
+
+  - job_name: vmstorage
+    metrics_path: /metrics
+    static_configs:
+    - targets:
+      - {{ vmstorage_host }}:8482
+
+  - job_name: vminsert
+    metrics_path: /metrics
+    static_configs:
+    - targets:
+      - {{ vminsert_host }}:8480
+
+  - job_name: vmselect
+    metrics_path: /metrics
+    static_configs:
+    - targets:
+      - {{ vmselect_host }}:8481
+  - job_name: node
+    file_sd_configs:
+    - files:
+      - /etc/vmagent/prometheus/file_sd/node.yml

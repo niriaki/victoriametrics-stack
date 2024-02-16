@@ -1,0 +1,5 @@
+---
+
+vm_folder: /data
+docker_image_insert: victoriametrics/vminsert:v1.97.0-cluster
+vmstorage_host: 62.84.127.102

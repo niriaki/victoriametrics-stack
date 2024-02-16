@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+  vmstorage:
+    container_name: vmstorage
+    image: {{docker_image_storage}}
+    network_mode: "host"
+    volumes:
+      - {{vm_folder}}/vmstorage/vmstorage_data:/storage
+    command:
+      - '--storageDataPath=/storage'
+      - '--dedup.minScrapeInterval=15s'
+      - '--retentionPeriod={{ retention_period }}'
+    restart: always

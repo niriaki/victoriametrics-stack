@@ -1,0 +1,4 @@
+- labels:
+    origin_prometheus: 'node'
+  targets:
+    - localhost:9100

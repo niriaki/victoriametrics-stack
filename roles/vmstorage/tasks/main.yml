@@ -1,0 +1,31 @@
+---
+# tasks file for vmstorage
+- name: Stop service
+  command: docker-compose down
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vmstorage"
+  ignore_errors: true
+
+- name: Create configs directory
+  file:
+    path: "{{vm_folder}}/vmstorage/"
+    state: directory
+
+- name: Create directory for VM storage data
+  file:
+    path: "{{vm_folder}}/vmstorage/vmstorage_data"
+    state: directory
+
+- name: Copy compose file for VM storage
+  template:
+    src: docker-compose-vmstorage.yml.j2
+    dest: "{{vm_folder}}/vmstorage/docker-compose.yml"
+    backup: yes
+    force: yes
+
+- name: Run service
+  command: docker-compose up -d
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vmstorage"

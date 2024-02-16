@@ -1,0 +1,55 @@
+---
+
+#- name: Install docker 
+#  become: true
+#  hosts: all_node
+#  roles:
+#    - docker
+
+#- name: Install vmagent 
+#  become: true
+#  hosts: vmagent
+#  roles:
+#    - vmagent
+
+#- name: Install vmstorage 
+#  become: true
+#  hosts: vmstorage
+#  roles:
+#    - vmstorage
+
+#- name: Install vmselect 
+#  become: true
+#  hosts: vmselect
+#  roles:
+#    - vmselect
+
+#- name: Install vminsert 
+#  become: true
+#  hosts: vminsert
+#  roles:
+#    - vminsert
+
+#- name: Install vmalert 
+#  become: true
+#  hosts: vmagent
+#  roles:
+#    - vmalert
+
+#- name: Install alertmanager 
+#  become: true
+#  hosts: vmagent
+#  roles:
+#    - alertmanager
+
+#- name: Install node_exporter 
+#  become: true
+#  hosts: all_node
+#  roles:
+#    - node_exporter
+
+- name: Install grafana 
+  become: true
+  hosts: grafana
+  roles:
+    - grafana

@@ -1,0 +1,26 @@
+---
+# tasks file for vminsert
+- name: Stop service
+  command: docker-compose down
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vminsert"
+  ignore_errors: true
+
+- name: Create configs directory
+  file:
+    path: "{{vm_folder}}/vminsert/"
+    state: directory
+
+- name: Copy compose file for VM insert
+  template:
+    src: docker-compose-vminsert.yml.j2
+    dest: "{{vm_folder}}/vminsert/docker-compose.yml"
+    backup: yes
+    force: yes
+
+- name: Run service
+  command: docker-compose up -d
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vminsert"

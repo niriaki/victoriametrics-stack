@@ -1,0 +1,22 @@
+---
+- name: Update packages
+  shell: "apt-get update -y -q && apt-get --enable-upgrade upgrade -y -q"
+  ignore_errors: true
+
+- name: Install docker
+  apt:
+    name: docker
+    state: present
+  ignore_errors: true
+
+- name: Install docker-compose
+  apt:
+    name: docker-compose
+    state: present
+  ignore_errors: true
+
+- name: Start docker demon
+  systemd:
+    name: docker
+    state: started
+    enabled: true

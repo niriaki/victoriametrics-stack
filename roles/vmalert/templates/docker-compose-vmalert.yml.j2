@@ -1,0 +1,19 @@
+version: '3.5'
+services:
+  vmalert:
+    container_name: vmalert
+    image: {{docker_image_vmalert}}
+    ports:
+      - 8880:8880
+    volumes:
+      - {{vm_folder}}/vmalert/alerts-cluster.yml:/etc/alerts/alerts.yml
+      - {{vm_folder}}/vmalert/alerts-health.yml:/etc/alerts/alerts-health.yml
+      - {{vm_folder}}/vmalert/alerts-vmagent.yml:/etc/alerts/alerts-vmagent.yml
+    command:
+      - '--datasource.url=http://{{vmselect_host}}:8481/select/0/prometheus'
+      - '--remoteRead.url=http://{{vmselect_host}}:8481/select/0/prometheus'
+      - '--remoteWrite.url=http://{{vminsert_host}}:8480/insert/0/prometheus'
+      - '--notifier.url=http://{{alertmanager_host}}:9093/'
+      - '--rule=/etc/alerts/*.yml'
+      - '-external.url=http://127.0.0.1:3000'
+    restart: always

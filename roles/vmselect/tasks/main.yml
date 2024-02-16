@@ -1,0 +1,26 @@
+---
+# tasks file for vmselect
+- name: Stop service
+  command: docker-compose down
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vmselect"
+  ignore_errors: true
+
+- name: Create configs directory
+  file:
+    path: "{{vm_folder}}/vmselect/"
+    state: directory
+
+- name: Copy compose file for VM select
+  template:
+    src: docker-compose-vmselect.yml.j2
+    dest: "{{vm_folder}}/vmselect/docker-compose.yml"
+    backup: yes
+    force: yes
+
+- name: Run service
+  command: docker-compose up -d
+  become: true
+  args:
+    chdir: "{{vm_folder}}/vmselect"

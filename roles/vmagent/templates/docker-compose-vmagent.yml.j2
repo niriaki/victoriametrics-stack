@@ -1,0 +1,20 @@
+---
+version: '3'
+
+services:
+
+  vmagent:
+    container_name: vmagent
+    image: {{ docker_image_agent }}
+    ports:
+      - "8429:8429"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - {{ vm_folder }}/vmagent/vmagent_data:/vmagentdata
+      - {{ vm_folder }}/vmagent/prometheus.yml:/etc/vmagent/prometheus.yml
+      - {{ vm_folder }}/vmagent/prometheus/file_sd:/etc/vmagent/prometheus/file_sd
+    command:
+      - '--promscrape.config=/etc/vmagent/prometheus.yml'
+      - '--remoteWrite.url=http://{{ vminsert_host }}:8480/insert/{{ tenant }}/prometheus'
+      - '--remoteWrite.tlsInsecureSkipVerify=true'
+    restart: always

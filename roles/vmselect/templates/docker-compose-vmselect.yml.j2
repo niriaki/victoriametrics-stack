@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  vmselect:
+    container_name: vmselect
+    image: {{docker_image_select}}
+    network_mode: "host"
+    command:
+      - '--storageNode={{vmstorage_host}}:8401'
+      - '--search.maxQueryLen=50MB'
+    restart: always

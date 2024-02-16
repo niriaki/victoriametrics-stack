@@ -1,0 +1,7 @@
+---
+
+vm_folder: /data
+docker_image_vmalert: victoriametrics/vmalert:v1.97.0
+alertmanager_host: 178.154.203.250
+vminsert_host: 158.160.116.141
+vmselect_host: 158.160.118.55
